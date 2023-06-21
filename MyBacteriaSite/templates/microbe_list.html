@@ -1,0 +1,82 @@
+{% extends "header.html" %}
+
+{% block content %}
+ 
+{% load crispy_forms_tags %}  
+
+{% load mytemplatetags %}
+
+<div class="container py-5">
+    <h1>Filter microbes</h1>
+	<form method="GET">
+
+		{{ search_microbe_form|crispy }}   
+		               
+		<button class="btn btn-primary" type="submit">Filter</button>
+        <button class="btn btn-primary" type="reset">Reset</button>
+	</form>
+</div>
+
+
+<div class = "container">
+
+    <h1>Microbes</h1>
+    {% if user.is_superuser %}
+    <a href="{% url 'MyBacteriaSite:add_microbe' %}" class="btn btn-dark my-3">Add microbe</a>
+    {% endif %}
+    <table class="table table-striped">
+        <tr>
+            <th>Phylum</th>
+            <th>Class</th>
+            <th>Order</th>
+            <th>Family</th>
+            <th>Genus</th>
+            <th>Species</th>
+            <th>Number of posts</th>
+            {% if user.is_superuser %}
+            <th>Actions</th>
+            {% endif %}
+        </tr>
+        {% for microbe in microbes %}
+            <tr>
+                <td>{{ microbe.MicrobePhylum }}</td>
+                <td>{{ microbe.MicrobeClass }}</td>
+                <td>{{ microbe.MicrobeOrder }}</td>
+                <td>{{ microbe.MicrobeFamily }}</td>
+                <td>{{ microbe.MicrobeGenus }}</td>
+                <td>{{ microbe.MicrobeSpecies }}</td>
+                <td>{{ microbe.num_of_posts }}</td>
+                {% if user.is_superuser %}
+                <td>
+                    <a href="{% url 'MyBacteriaSite:edit_microbe' microbe.id %}" class="btn btn-dark my-1"> Edit </a>
+                    <a href="{% url 'MyBacteriaSite:delete_microbe' microbe.id %}" class="btn btn-danger my-1"> Delete </a>
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+
+
+    <div class="container py-5">
+        {% if microbes.has_previous %}
+            <!-- <a href="?page=1"> First </a>-->
+            <a href="?{% url_replace request 'page' 1 %}"> First </a>
+            <!--<a href="?page={{ posts.previous_page_number }}"> Previous </a>-->
+            <a href="?{% url_replace request 'page' microbes.previous_page_number %}"> Previous </a>
+    
+    
+            {% endif %}
+    
+            Page {{ microbes.number }} of {{ microbes.paginator.num_pages }}
+    
+            {% if microbes.has_next %}
+            <!-- <a href="?page={{ posts.next_page_number }}"> Next </a>-->
+            <a href="?{% url_replace request 'page' microbes.next_page_number %}"> Next </a>
+            <!-- <a href="?page={{ posts.paginator.num_pages }}"> Last </a>-->
+            <a href="?{% url_replace request 'page' microbes.paginator.num_pages %}"> Last </a>
+    
+            {% endif %}
+    </div>
+
+</div>
+{% endblock %}

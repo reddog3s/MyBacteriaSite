@@ -1,0 +1,45 @@
+{% extends "header.html" %}
+
+{% block content %}
+ 
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col">
+
+                <!--<a href="{% url 'MyBacteriaSite:gallery' %}" class="btn btn-dark my-3">Go Back</a>-->
+
+                <div class="card my-2">
+                    <div class="card-body">
+                        <img style="max-width: 100%; max-height: 100%;" src="{{post.image.url}}">
+                        <h5 class="card-title">{{post.title}}</h4>
+                        <h6 class="card-subtitle mb-2 ">Microbe name: {{post.microbe}}</h5>
+                        <h6 class="card-subtitle mb-2 ">Published: {{post.created_date}}</h6>
+                        <h6 class="card-subtitle mb-2 ">Author: {{post.author}}</h6>
+                        <h6 class="card-subtitle mb-2 ">Location: {{post.latitude}}, {{post.longitude}}</h6>
+
+                        <p>{{post.text}}</p>
+
+
+                        {% if user.is_authenticated %}
+                        <form action="{% url 'MyBacteriaSite:like_post' post.pk %}" method="POST">
+                            {% csrf_token %}
+                
+                            {% if post_is_liked %}
+                            <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-info">Unlike</button>
+                            {% else %}
+                            <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-info">Like</button>
+                            {% endif %}
+                        </form>
+                        {% else %}
+                        <a class="btn btn-outline-info" href="{% url 'MyBacteriaSite:login' %}?next={{request.path}}">Log in to like this article!</a><br>
+                        {% endif %}
+                        <strong>Number of likes: {{ number_of_likes }}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+{% endblock %}

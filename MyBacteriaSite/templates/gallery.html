@@ -1,0 +1,68 @@
+{% extends "header.html" %}
+
+{% block content %}
+ 
+{% load crispy_forms_tags %}  
+
+{% load mytemplatetags %}
+
+<div class="container py-5">
+    <h1>Filter posts</h1>
+	<form method="GET">
+
+		{{ search_form|crispy }}   
+		               
+		<button class="btn btn-primary" type="submit">Filter</button>
+        <button class="btn btn-primary" type="reset">Reset</button>
+	</form>
+</div>
+
+<div class="col-md-9">
+    <div class="row">
+
+        {% for post in posts %}
+        <div class="col-md-4">
+            <div class="card my-2">
+                <img class="image-thumbnail" src="{{post.image.url}}" alt="Card image cap">
+
+                <div class="card-body">
+                    <h5 class="card-title">{{post.title}}</h5>
+                    <h6 class="card-subtitle mb-2">Microbe name: {{post.microbe}}</h6>
+                    <h6 class="card-subtitle mb-2">Published: {{post.created_date}}</h6>
+                    <p>Likes: {{post.num_of_likes}}</p>
+                    {% if post.created_date != post.last_edited %}
+                    <p>Edited {{post.last_edited}}</p>
+                    {% endif %}
+                </div>
+                <a href="{% url 'MyBacteriaSite:show_post' post.id %}" class="btn btn-outline-dark btn-sm m-1">View</a>
+            </div>
+        </div>
+        {% empty %}
+        <h3>No posts...</h3>
+        {% endfor %}
+
+
+    </div>
+    <div class="container py-5">
+    {% if posts.has_previous %}
+        <!-- <a href="?page=1"> First </a>-->
+        <a href="?{% url_replace request 'page' 1 %}"> First </a>
+        <!--<a href="?page={{ posts.previous_page_number }}"> Previous </a>-->
+        <a href="?{% url_replace request 'page' posts.previous_page_number %}"> Previous </a>
+
+
+        {% endif %}
+
+        Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+
+        {% if posts.has_next %}
+        <!-- <a href="?page={{ posts.next_page_number }}"> Next </a>-->
+        <a href="?{% url_replace request 'page' posts.next_page_number %}"> Next </a>
+        <!-- <a href="?page={{ posts.paginator.num_pages }}"> Last </a>-->
+        <a href="?{% url_replace request 'page' posts.paginator.num_pages %}"> Last </a>
+
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

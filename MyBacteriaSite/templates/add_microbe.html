@@ -1,0 +1,24 @@
+{% extends "header.html" %}
+
+{% block content %}      
+
+{% load crispy_forms_tags %}
+
+
+<div style="color: red;">
+  {{ form_errors }}
+	{{ non_field_errors }}
+</div>
+ 
+
+<div class="container py-5">
+  <h1>Add new microbe</h1>
+  <p class="text-center">or upload list of microbes as <a href="/microbes_as_csv">csv</a> instead.</p>
+  <form method="POST">
+    {% csrf_token %}
+    {{ microbe_form|crispy }}
+    <button class="btn btn-primary" type="submit">Add</button>
+  </form>
+</div>
+
+{% endblock %}
