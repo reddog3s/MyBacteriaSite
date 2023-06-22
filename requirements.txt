@@ -9,7 +9,5 @@ reportlab
 numpy
 django-storages
 boto3
-
-
-
+django-environ
 	
