@@ -13,14 +13,12 @@ All requirements are listed in `requirements.txt`.
 * Ability to add multiple microbes at once by uploading CSV file,
 * Static files stored in Amazon S3 bucket.
 ## Testing data
-User were created manually. Post were created automatically using custom command `python manage.py  create_posts N`<br>
+Users were created manually. Posts were created automatically using custom command <br>`python manage.py create_posts N`,<br>
 where N is the number of posts to create.<br>
 Photos were taken from [AGAR Dataset](https://agar.neurosys.com/) and author's own experiments.<br>
 Microbe data was downloaded from [NCBI](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Tree&id=2&lvl=1&lin=f&keep=1&srchmode=1&unlock) using `get_microbes.py`.
-## Deployed on pythonanywhere.com
-Working site available [here](http://wojtekgajewski2000.pythonanywhere.com/).
 ## Authors
-Wojciech Gajewski - backend in Django, AWS integration, deployment.<br>
+Wojciech Gajewski - backend in Django, AWS integration, deployment on pythonanywhere.com.<br>
 Ewelina Dobosz - JS, CSS, HTML.
 
 
